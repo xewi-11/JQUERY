@@ -1,12 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    aaa
-</body>
-</html>
 
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+
+    <style>
+        .rojo {
+
+            color: red;
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- COMENTARIOS EN IDE DE MICROSOFT 
+
+ CONTROL + K + C 
+
+ DESCOMENTAR: 
+
+ CONTROL + K + U -->
+
+    <h1 class="rojo">Selectores JQuery</h1>
+
+    <h2>Esto es una prueba</h2>
+
+    <button class="rojo" id="boton1">Soy un boton 1</button>
+
+    <button id="boton2">Soy un boton 2</button>
+
+    <p class="rojo">Parrafo 1</p>
+
+    <p class="rojo">Parrafo 2</p>
+
+    <p>Parrafo 3</p>
+
+    <script src="js/jquery-3.7.1.js"></script>
+
+    <script>
+
+        //AQUI NUESTRO CODIGO JQUERY 
+
+        //LA PRIMERA SIEMPRE DEBE SER LA SIGUIENTE 
+
+        $(document).ready(function () {
+
+            //AQUI DENTRO LAS PETICIONES 
+
+            //alert("Hola mundo") 
+
+            //$("#boton1").hide(); 
+
+            //PODEMOS ASOCIAR ACCIONES A LOS OBJETOS (CUANDO) 
+
+            $("p").click(function () {
+
+                //IMPRESCINDIBLE EN DESARROLLO FRONT  
+
+                //MENSAJES POR CONSOLA 
+
+                console.log("Mensaje por consola Web")
+
+                //$("#boton1").hide(); 
+
+                //EXISTE UNA PALABRA CLAVE QUE INDICA QUE  
+
+                //ACCEDEMOS AL OBJETO QUE HA REALIZADO LA LLAMADA: this 
+
+                $(this).hide();
+
+            })
+
+            $(".rojo").click(function () {
+
+                $(this).hide();
+
+            })
+
+        })
+
+    </script>
+
+</body>
+
+</html>

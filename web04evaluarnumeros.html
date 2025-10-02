@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <h1>Evaluar Numeros,Introduzca 3 numeros</h1>
+    <label> Numero 1</label>
+    <input type="text" id="numero1" />
+    <hr>
+    <label> Numero 2</label>
+    <input type="text" id="numero2" />
+    <hr>
+    <label> Numero 3</label>
+    <input type="text" id="numero3" />
+    <hr>
+    <button id="btnEvaluar">Evaluar Numeros</button>
+    <h2 id="resultado"></h2>
+    <script>
+        $(document).ready(function () {
+            $("#btnEvaluar").click(function (){
+                var n1 = parseFloat($("#numero1").val());
+                var n2 = parseFloat($("#numero2").val());
+                var n3 = parseFloat($("#numero3").val());
+                if (n1 > n2 && n1 > n3) {
+                    if (n2 > n3) {
+                        $("#resultado").text("Orden: " + n1 + ">" + n2 + ">" + n3);
+
+                    }else{
+                        $("#resultado").text("Orden: " + n1 + ">" + n3 + ">" + n2);
+                    }
+                } else if (n2 > n1 && n2 > n3) {
+                    if (n1 > n3) {
+                        $("#resultado").text("Orden: " + n2 + ">" + n1 + ">" + n3);
+                    } else {
+                        $("#resultado").text("Orden: " + n2 + ">" + n3 + ">" + n1);
+                    }
+
+                }else{
+                    if (n1 > n2) {
+                        $("#resultado").text("Orden: " + n3 + ">" + n1 + ">" + n2);
+                    } else {
+                        $("#resultado").text("Orden: " + n3 + ">" + n2 + ">" + n1);
+                    }
+                }});
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .img {
+            width: 150px;
+            height: 150px;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="js/jquery-3.7.1.js"></script>
+    var hola="gola";
+    <img src="images/imagen1.webp">
+    <img src="images/imagen1.webp">
+    <img src="images/imagen1.webp">
+    <img src="images/imagen1.webp">
+    <img src="images/imagen1.webp">
+    <script>
+        $(document).ready(function () {
+            $("img").mouseover(function () {
+                var actual = $(this).attr("src");
+                console.log("iMAGEN ACTUAL:" + actual);
+                $(this).attr("src", "images/imagen2.webp");
+            });
+
+            $("img").mouseout(function () {
+                var actual = $(this).attr("src");
+                console.log("iMAGEN ACTUAL:" + actual);
+                $(this).attr("src", "images/imagen1.webp");
+            });
+
+        })
+    </script>
+</body>
+
+</html>
