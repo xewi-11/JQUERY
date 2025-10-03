@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery-3.7.1.js"></script>
+    <style>
+        img {
+            width: 90px;
+            height: 90px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Generar imagenes</h1>
+    <input type="range" id="rango" max="20" min="1" value="1" />
+    <span id="valorrango"></span>
+    <div id="contenedor"></div>
+    <script>
+        $(document).ready(function () {
+            $("#rango").change(function () {
+                var numImagenes = parseInt($("#rango").val());
+                $("#valorrango").text(numImagenes);
+                //limpiar contenedor
+                $("#contenedor").html("");
+                for (let index = 0; index < numImagenes; index++) {
+                    console.log(index);
+                    var imagen = $("<img>", {
+                        "src": "images/imagen1.webp"
+                    });
+                    $("#contenedor").append(imagen);
+                    imagen.mouseover(function () {
+                        $(this).attr("src", "images/imagen2.webp");
+                    });
+                    imagen.mouseout(function () {
+                        $(this).attr("src", "images/imagen1.webp");
+                    })
+                }
+            })
+        })
+    </script>
+
+
+</body>
+
+</html>

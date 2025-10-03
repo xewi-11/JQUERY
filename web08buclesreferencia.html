@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+<body>
+    <h1>Bucles referencia</h1>
+    <p>parrafo 1</p>
+    <p>parrafo 2</p>
+    <p>parrafo 3</p>    
+    <p>parrafo 4</p>
+    <p>parrafo 5</p>
+   
+    <script>
+        $(document).ready(function(){
+          // pulsar cualquier p modificamos color
+          $("p").click(function(){
+            var colores=["red","blue","green","yellow","purple"];
+            $("p").each(function(){
+                var indice=parseInt(Math.random()*colores.length);
+                $(this).css("background-color",colores[indice]);
+            });
+        });
+        });
+    </script>
+</body>
+</html>

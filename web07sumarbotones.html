@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+<body>
+    <div id="contenedorBotones"></div>
+    <br><hr>
+    <h1 id="resultado"></h1>
+    <script>
+        $(document).ready(function(){
+            var suma=0;
+               for (let index = 0; index < 10; index++) {
+                
+                var boton= $("<button id='btn"+index+"'>");
+                    //generar el numero random:
+                    var num=Math.round(Math.random()*100);
+                    boton.text("NUmero "+ num)
+                    boton.val(num);
+                
+                    $("#contenedorBotones").append(boton);
+                    boton.click(function(){
+                        var valor=parseInt($(this).val());
+                        console.log(index +" " +valor );
+                        suma+=valor;
+                        $("#resultado").text("Suma: "+suma);
+                    });
+                    
+               }
+        })
+    </script>
+</body>
+</html>
