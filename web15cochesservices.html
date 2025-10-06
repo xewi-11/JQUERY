@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <h1>Desplegable coche</h1>
+    <button id="btnCargar">Cargar datos</button>
+    <select id="selectorCoches">
+        <option value="eliga una opcion"></option>
+    </select>
+    <div id="contenedor"></div>
+    <script>
+        $(document).ready(function () {
+            let url = "https://apiclientesxml.azurewebsites.net/";
+                let request = "api/Clientes/GetCochesXML";
+            $("#btnCargar").click(function () {
+                
+                $.get(url + request, function (data) {
+                    $(data).find("coche").each(function () {
+                        var id = $(this).attr("idcoche");
+                        const nuevaOpcion = $('<option>', {
+                            value: id, // Valor de la opción
+                            text: $(this).find("marca").first().text() + " " + $(this).find("modelo").first().text()  // Texto visible
+                        });
+                        $("#selectorCoches").append(nuevaOpcion);
+                    })
+
+                })
+            })
+            $("#selectorCoches").change(function () {
+                $.get(url + request, function (data) {
+                    var idcoche = $("#selectorCoches").val();
+                    var filtro="coche[idcoche="+ idcoche+ "]";
+                    var nodo=  $(data).find(filtro).first();
+                    var imagen=nodo.find("imagen").text();
+                  
+                  console.log(nodo);
+                  $("#contenedor").html("<img src='" + imagen + "' style='width:150px; height:150px' />");
+
+                })
+
+            })
+        })
+    </script>
+</body>
+
+</html>
