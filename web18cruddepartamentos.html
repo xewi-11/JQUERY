@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+<body>
+    <h1>Crud de departamentos</h1>
+    <table id="tablaDepartamentos" style="border-radius: 20PX; border: 2px solid black;">
+        <thead>
+            <tr>
+                <th>IdDepartamento</th>
+                <th>Nombre</th>
+                <th>Localidad</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <script>
+        let url="https://apicruddepartamentosxml.azurewebsites.net/";
+       
+        $(document).ready(function(){
+         cargarTabla();
+        })
+         function cargarTabla(){
+         var request="api/departamentos";
+         $.get(url+request,function(data){
+            console.log("Leyendo servicio");
+            var html="";
+            $(data).find("Departamento").each(function(){
+                var id=$(this).find("IdDepartamento").first().text();
+                var nombre=$(this).find("Nombre").first().text();
+                var localidad=$(this).find("Localidad").first().text();
+                html+="<tr >";
+                html+=" <td style='border: 2px solid black;'> "+ id+"</td>";
+                html+=" <td style='border: 2px solid black;'> "+ nombre+"</td>";
+                html+=" <td style='border: 2px solid black;'> "+ localidad+"</td>";
+                html+="</tr>";
+            })
+            $("#tablaDepartamentos tbody").html(html);
+         })
+    }
+    </script>
+    
+</body>
+</html>
