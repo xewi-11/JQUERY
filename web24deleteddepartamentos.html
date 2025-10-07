@@ -1,28 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="js/jquery-3.7.1.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <h1>DEPARTAMENTOS</h1>
     <ul id="listadepartamentos"></ul>
     <div></div>
     <script>
-        $(document).ready(function(){
-
-        })
-        function cargarNombre(){
-            let url="https://apicruddepartamentospgs.azurewebsites.net/";
-            let request="webresources/departamentos";
-            $.ajax({
-                url:url+request,
-                type:"GET",
-                
-            })
-        }
+      $(document).ready(function () {
+        cargarNombre();
+      });
+      function cargarNombre() {
+        let url = "https://apicruddepartamentospgs.azurewebsites.net/";
+        let request = "webresources/departamentos";
+        $.ajax({
+          url: url + request,
+          type: "GET",
+          dataType: "json",
+          success: function (data) {
+            var html = "";
+            $.each(data, function (index, departamento) {
+              var id = departamento.numero;
+              var nombre = departamento.nombre;
+              var localidad = departamento.localidad;
+              html +=
+                "<li>ID: " +
+                id +
+                " NOMBRE: " +
+                nombre +
+                " LOCALIDAD: " +
+                localidad +
+                "<button class='btn-depto'  data-id='" +
+                id +
+                "'>" +
+                nombre +
+                "</button>" +
+                "</li>";
+            });
+            $("#listadepartamentos").html(html);
+            $(".btn-depto").click(function () {
+              var idDepto = $(this).data("id");
+              $.ajax({
+                url:
+                  "https://apicruddepartamentospgs.azurewebsites.net/webresources/departamentos/delete/" +
+                  idDepto,
+                type: "DELETE",
+                contentType: "application/json",
+                success: function () {
+                  alert("Departamento " + idDepto + " eliminado");
+                  cargarNombre();
+                },
+              });
+            });
+          },
+        });
+      }
     </script>
-</body>
+  </body>
 </html>
