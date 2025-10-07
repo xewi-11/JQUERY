@@ -8,6 +8,15 @@
 </head>
 <body>
     <h1>Crud de departamentos</h1>
+    <label >id Departamentos</label>
+    <input type="text" id="cajaid" /><br>
+    <label >Nombre</label>
+    <input type="text" id="cajanombre" /><br>
+    <label >Localidad</label>
+    <input type="text" id="cajalocalidad" /><br>
+    <button id="btnInsert">Insertar</button>
+    <button id="btnUpdate">Actualizar</button>
+    <button id="btnDelete">Borrar</button>
     <table id="tablaDepartamentos" style="border-radius: 20PX; border: 2px solid black;">
         <thead>
             <tr>
@@ -25,6 +34,57 @@
        
         $(document).ready(function(){
          cargarTabla();
+         $("#btnInsert").click(function(){
+            let id=$("#cajaid").val();
+            let nombre=$("#cajanombre").val();
+            let localidad=$("#cajalocalidad").val();
+            let dataXML="<Departamento>";
+             dataXML+="<IdDepartamento>"+id+"</IdDepartamento>";
+             dataXML+="<Nombre>"+nombre+"</Nombre>";
+             dataXML+="<Localidad>"+localidad+"</Localidad>";
+             dataXML+="</Departamento>";
+             let request="api/departamentos";
+             $.ajax({
+                url:url+request,
+                type: "POST",
+                contentType:"text/xml",
+                data:dataXML,
+                success:function(){
+                    console.log("Insertado");
+                    cargarTabla();
+                }
+             })
+         })
+         $("#btnUpdate").click(function(){
+            let id=$("#cajaid").val();
+            let nombre=$("#cajanombre").val();
+            let localidad=$("#cajalocalidad").val();
+            let dataXML=getDepartamentoXML(id,nombre,localidad);
+            let request="api/departamentos";
+
+            $.ajax({
+                url:url+request,
+                type:"PUT",
+                contentType:"text/xml",
+                data:dataXML,
+                success:function(){
+                    console.log("Modificado");
+                    cargarTabla();
+                }
+            })
+         })
+         $("#btnDelete").click(function(){
+            let id=$("#cajaid").val();
+            let request="api/departamentos/"+ id;
+            $.ajax({
+                url:url+request,
+                type:"DELETE",
+                success:function(){
+                    console.log("Eliminando")
+                    cargarTabla();
+                }
+            })
+         })
         })
          function cargarTabla(){
          var request="api/departamentos";
@@ -43,6 +103,14 @@
             })
             $("#tablaDepartamentos tbody").html(html);
          })
+    }
+    function getDepartamentoXML(id,nombre,localidad){
+        let dataXML="<Departamento>";
+             dataXML+="<IdDepartamento>"+id+"</IdDepartamento>";
+             dataXML+="<Nombre>"+nombre+"</Nombre>";
+             dataXML+="<Localidad>"+localidad+"</Localidad>";
+             dataXML+="</Departamento>";
+             return dataXML;
     }
     </script>
     

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+<body>
+    <h1>DEPARTAMENTOS</h1>
+    <ul id="listadepartamentos"></ul>
+    <div></div>
+    <script>
+        $(document).ready(function(){
+
+        })
+        function cargarNombre(){
+            let url="https://apicruddepartamentospgs.azurewebsites.net/";
+            let request="webresources/departamentos";
+            $.ajax({
+                url:url+request,
+                type:"GET",
+                
+            })
+        }
+    </script>
+</body>
+</html>

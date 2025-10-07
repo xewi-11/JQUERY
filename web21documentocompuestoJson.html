@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        <script src="js/jquery-3.7.1.js"></script>
+</head>
+<body>
+    <h1>Documento objetos json</h1>
+    <button id="btncargar">cargar documento</button>
+    <ul id="clientes"></ul>
+    <script>
+        $(document).ready(function(){
+            $("#btncargar").click(function(){
+                $.ajax({
+                    url:"documents/clientes.json",
+                    method:"GET",
+                    dataType:"json",
+                    success:function(data){
+                        console.log("leyendo");
+                        var html="";
+                        $.each(data.clientes,function(index,object){
+
+                            // $.each(object,function(i,cliente){
+                            //        html+="<li> Index:"+ i+ ", Objecto: "+ cliente.nombre+"</li>";
+                            // })
+                             html+="<li> Index:"+ Number(index+1)+ ", Objecto: "+ object.nombre+"</li>";
+                        })
+                        $("#clientes").html(html);
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+</html>

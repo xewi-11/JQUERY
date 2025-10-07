@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <h1>Crud de departamentos</h1>
+    <label>id Departamentos</label>
+    <input type="text" id="cajaid" /><br>
+    <label>Nombre</label>
+    <input type="text" id="cajanombre" /><br>
+    <label>Localidad</label>
+    <input type="text" id="cajalocalidad" /><br>
+    <button id="btnInsert">Insertar</button>
+    <button id="btnUpdate">Actualizar</button>
+    <button id="btnDelete">Borrar</button>
+    <table id="tablaDepartamentos" style="border-radius: 20PX; border: 2px solid black;">
+        <thead>
+            <tr>
+                <th>IdDepartamento</th>
+                <th>Nombre</th>
+                <th>Localidad</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <script>
+        $(document).ready(function () {
+            cargarDepartamentos();
+            $("#btnInsert").click(function(){
+                insertarDepartamentos();
+            })
+            $("#btnUpdate").click(function(){
+                     actualizarDepartamentos();
+            })
+            $("#btnDelete").click(function(){
+                     eliminarDepartamentos();
+            })
+        })
+        function cargarDepartamentos() {
+            let url = "https://apicruddepartamentospgs.azurewebsites.net/";
+            let request = "webresources/departamentos";
+            $.ajax({
+                url: url + request,
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    var html = "";
+                    $.each(data, function (index, departamento) {
+                        var id = departamento.numero;
+                        var nombre = departamento.nombre;
+                        var localidad = departamento.localidad;
+                        html += "<tr>";
+                        html += "<td>" + id + "</td>"
+                        html += "<td>" + nombre + "</td>"
+                        html += "<td>" + localidad + "</td>"
+                    })
+                    $("#tablaDepartamentos tbody").html(html)
+                }
+            })
+        }
+        function insertarDepartamentos(){
+            let url="https://apicruddepartamentospgs.azurewebsites.net/";
+            let request="webresources/departamentos/post";
+            var id=parseInt($("#cajaid").val());
+            var nombre=$("#cajanombre").val() ;
+            var localidad=$("#cajalocalidad").val() ;
+            $.ajax({
+                url:url+request,
+                type:"POST",
+                contentType:"application/json",
+                data:getDepartamentoJSON(id,nombre,localidad),
+                success:function(data){
+                    console.log("Insertando");
+                    cargarDepartamentos();
+                }
+            })
+        }
+        function getDepartamentoJSON(id,nombre,localidad){
+            var departamento=new Object();
+            departamento.numero=id;
+            departamento.nombre=nombre;
+            departamento.localidad=localidad;
+            console.log(id);
+            //pasar de string a json
+            var departamentoJSON=JSON.stringify(departamento);
+            console.log(departamentoJSON);
+            return departamentoJSON;
+        }
+        function actualizarDepartamentos(){
+            let url="https://apicruddepartamentospgs.azurewebsites.net/";
+            let request="/webresources/departamentos";
+            var id=parseInt($("#cajaid").val());
+            var nombre=$("#cajanombre").val() ;
+            var localidad=$("#cajalocalidad").val() ;
+            var departamento=new Object();
+            departamento.numero=id;
+             departamento.nombre=nombre;
+            departamento.localidad=localidad;
+            var departamentoJSON=JSON.stringify(departamento);
+            $.ajax({
+                url:url+request,
+                type:"PUT",
+                contentType:"application/json",
+                dataType:"json",
+                data:departamentoJSON,
+                success:function(data){
+                    console.log("actualizando")
+                    cargarDepartamentos();
+                }
+            })
+        }
+        function eliminarDepartamentos(){
+            var id=parseInt($("#cajaid").val());
+            let url="https://apicruddepartamentospgs.azurewebsites.net/";
+            let request="/webresources/departamentos"+id;
+            $.ajax({
+                url:url+request,
+                type:"DELETE",
+                contentType:"application/json",
+                success:function(data){
+                    console.log("deleted");
+                    cargarDepartamentos();
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

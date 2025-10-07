@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <h1>BUSQUEDA DE JUGADORES</h1>
+    <select id="selectorjugadores">
+        <option value="">Selecciones un opcion</option>
+    </select>
+    <div id="containerjugador"></div>
+    <script>
+        $(document).ready(function () {
+            cargarJugadores();
+            $("#selectorjugadores").change(function(){
+                var name=$("#selectorjugadores").text();
+                $.ajax({
+                    url: "documents/jugadores.json",
+                method: "GET",
+                dataType: "json",
+                success:function(data){
+                    var html="";
+                    var indexjugador = $("#selectorjugadores").val();
+                    //  $.each(data.jugadores,function(index,player){
+                    // console.log(player)
+                    //         var playerName=player.nombre;
+                    //          if(playerName==name){
+                    //             var posicion=player.posicion;
+                    //             var imagen=player.imagen;
+                    //             html+="<h1>"+ playerName+"</h1>";
+                    //             html+="<p> Posicion:" + posicion+"</p>";
+                    //             html+="<img src='"+imagen+"'/>";
+                    //          }
+                    //  })
+                    var player=data.jugadores[indexjugador];
+                    var playerName=player.nombre;
+                     var posicion=player.posicion;
+                               var imagen=player.imagen;
+                               html+="<h1>"+ playerName+"</h1>";
+                               html+="<p> Posicion:" + posicion+"</p>";
+                               html+="<img src='"+imagen+"'/>";
+                    $("#containerjugador").html(html);
+                }
+                })
+            })
+        })
+        function cargarJugadores() {
+            $.ajax({
+                url: "documents/jugadores.json",
+                method: "GET",
+                dataType: "json",
+                success: function (data) {
+                    console.log("Leyendo");
+                    $.each(data.jugadores, function (index, player) {
+                        var nombre = player.nombre;
+                        var option = $("<option>", { "text": nombre,"value":index});
+                        $("#selectorjugadores").append(option);
+                    })
+
+                }
+                
+            })
+        }
+    </script>
+</body>
+
+</html>
