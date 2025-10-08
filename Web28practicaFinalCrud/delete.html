@@ -247,13 +247,19 @@
     </nav>
     <main class="container">
       <div class="bg-body-tertiary p-5 rounded">
-        <h1>Home</h1>
+        <h1>Hospitales:</h1>
+        <label>ID hospital</label>
+        <input type="text" id="cajaid" class="form-control" /><br />
+        <button id="btneliminar" class="btn btn-info">
+          eliminar hospital Hospital</button
+        ><br />
+        <br />
         <table id="tablaHospitales" class="table table-bordered">
           <thead>
             <tr>
               <th>Nombre</th>
               <th>Dirección</th>
-              <th></th>
+              <th>ID</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -265,31 +271,49 @@
     <script>
       let url = "https://apicrudhospital.azurewebsites.net/";
       $(document).ready(function () {
+        cargarHospitales();
+        $("#btneliminar").click(function () {
+          let id = $("#cajaid").val();
+          eliminarHospital(id);
+        });
+      });
+      function cargarHospitales() {
         let request = "webresources/hospitales";
         $.ajax({
           url: url + request,
           type: "GET",
+          dataType: "json",
           success: function (data) {
-            console.log("Leyendo hospitales");
+            console.log("LEyendo");
             var html = "";
             $.each(data, function (index, hospital) {
               var id = hospital.idhospital;
+              var nombre = hospital.nombre;
+              var direccion = hospital.direccion;
               html += "<tr>";
-              html += "<td>" + hospital.nombre + "</td>";
-              html += "<td>" + hospital.direccion + "</td>";
-              //link que lleve a la pagina de details
-              html +=
-                "<td><a href='details.html?idhospital=" + id + "'>Details</a>";
-              html +=
-                "<a a href='update.html?idhospital=" + id + "'>Actualizar</a>";
-              html += "</td>";
-
+              html += "<td>" + nombre + "</td>";
+              html += "<td>" + direccion + "</td>";
+              html += "<td>" + id + "</td>";
               html += "</tr>";
+              console.log(html);
             });
             $("#tablaHospitales tbody").html(html);
           },
         });
-      });
+      }
+      function eliminarHospital(id) {
+        let request = "webresources/hospitales/delete/" + id;
+        $.ajax({
+          url: url + request,
+          type: "DELETE",
+          contentType: "application/json",
+          success: function (data) {
+            console.log("eliminado");
+            cargarHospitales();
+            window.location.href = "home.html";
+          },
+        });
+      }
     </script>
   </body>
 </html>
