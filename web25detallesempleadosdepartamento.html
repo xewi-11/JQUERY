@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+<body>
+    <h1>Maestro detalle departamentos por empleado</h1>
+    <ul id="listadepartamentos"></ul>
+    <table id="tablaEmpleados">
+        <thead>
+            <th>Apellido</th>
+            <th>Oficio</th>
+            <th>Salario</th>
+            <th>Departamento</th>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <script>
+        $(document).ready(function(){
+            cargarDepartamentos();
+        })
+        function cargarDepartamentos(){
+            let url="https://apicruddepartamentospgs.azurewebsites.net/";
+            let request="webresources/departamentos";
+            $.ajax({
+                url:url+request,
+                type:"GET",
+                dataType:"json",
+                success:function(data){
+                    console.log("leyendo");
+                    $.each(data,function(index,departamento){
+                        var id=departamento.numero;
+                        var nombre=departamento.nombre;
+                        var localidad=departamento.localidad;
+                        var li=$("<li>",{"text":"ID:"+id+" NOMBRE:"+nombre});
+                            var link=$("<a>",{
+                                "href":"#",
+                                "class":"btn-depto",
+                                "text":"Empleados",
+                                "data-id":id
+                            });
+                        li.append(link);
+              
+                        $("#listadepartamentos").append(li);
+                        $(".btn-depto").click(function(){
+                            var idDepto=$(this).data("id");
+                            let urlEmpleados="https://apiempleadosspgs.azurewebsites.net/";
+                            let requestEmpleados="api/Empleados/EmpleadosDepartamento/"+idDepto;
+                            $.ajax({
+                                url:urlEmpleados+requestEmpleados,
+                                type:"GET",
+                                dataType:"json",
+                                success:function(data){
+                                    $("#tablaEmpleados tbody").html("");
+                                      console.log("leyendo empleados");
+                                        $.each(data,function(index,empleado){
+                                            var apellido=empleado.apellido;
+                                            var oficio=empleado.oficio;
+                                            var salario=empleado.salario;
+                                            var departamento=empleado.departamento;
+                                            var fila="<tr>";
+                                                fila+="<td>"+apellido+"</td>";
+                                                fila+="<td>"+oficio+"</td>";
+                                                fila+="<td>"+salario+"</td>";
+                                                fila+="<td> "+departamento+"</td>";
+                                                fila+="</tr>";//franco lider
+                                                $("#tablaEmpleados tbody").append(fila);//arriba el caudillo
+                                        })
+                                        
+
+                                }
+                            })
+                        })
+                    })
+                }
+            })
+        }
+    </script>
+</body>
+</html>
